@@ -51,6 +51,8 @@ pipeline {
           }
         }
       } 
+ stage('Deploy to K8s')
+  {
    steps{
     sshagent(['sshkubernetes'])
     {
@@ -65,4 +67,5 @@ script{
     }
    }
     }
+}
 }
