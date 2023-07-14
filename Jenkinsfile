@@ -54,7 +54,7 @@ pipeline {
  stage('Deploy to K8s')
   {
    steps {
-    sshagent(['sshkubernetes']){
+    sshagent(['node']){
      sh 'scp -r -o StrictHostKeyChecking=no maven-web-app-deploy.yml ubuntu@52.53.178.203/home/ubuntu/'
 script{
       try{
