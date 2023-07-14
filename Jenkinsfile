@@ -50,6 +50,12 @@ pipeline {
             sh 'docker run -d -p 8090:8080 --name tomcat navyaa14/maven-web-app'
           }
         }
-      }  
+      } 
+     stage('Deploy App'){
+        kubernetesDeploy(
+            configs: 'maven-web-app-deploy.yml',
+            kubeconfigId: 'Kube-Config'
+        )
+    } 
     }
 }
