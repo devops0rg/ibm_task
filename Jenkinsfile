@@ -51,15 +51,18 @@ pipeline {
           }
         }
       } 
-     stage('Deploy App'){
-       steps {
-       script{
-       sh "sed -i 's,navyaa14/maven-web-app,navyaa14/maven-web-app:latest,' maven-web-app-deploy.yml"
-          sh "cat maven-web-app-deploy.yml"
-          sh "kubectl --kubeconfig=/home/ec2-user/config get pods"
-          sh "kubectl --kubeconfig=/home/ec2-user/config apply -f maven-web-app-deploy.yml"
-    } 
-    }
+   steps{
+    sshagent(['sshkubernetes'])
+    {
+     sh 'scp -r -o StrictHostKeyChecking=no maven-web-app-deploy.yml ubuntu@52.53.178.203:/home/ubuntu'
+script{
+      try{
+       sh 'ssh ubuntu@52.53.178.203 kubectl apply -f  maven-web-app-deploy.yml --kubeconfig=/root/.kube/config'
+}catch(error)
+       {
+}
      }
+    }
+   }
     }
 }
