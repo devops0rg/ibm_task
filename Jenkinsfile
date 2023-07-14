@@ -52,10 +52,14 @@ pipeline {
         }
       } 
      stage('Deploy App'){
+       steps {
+       script{
         kubernetesDeploy(
             configs: 'maven-web-app-deploy.yml',
             kubeconfigId: 'Kube-Config'
         )
     } 
+    }
+     }
     }
 }
